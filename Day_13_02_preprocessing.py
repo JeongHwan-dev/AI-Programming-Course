@@ -1,5 +1,5 @@
 # Day_13_02_preprocessing.py
-from sklearn import preprocessing
+from sklearn import preprocessing, impute
 import numpy as np
 
 
@@ -112,9 +112,30 @@ def standard_scale():
     print(scaler.transform(x))
 
 
+# 결측치 : missing value (na, nan)
+def imputer():
+    # 4 = (1 + 7) / 2
+    # 6 = (2 + 6 + 10) / 3
+    x = [[1, 2],
+         [np.nan, 6],
+         [7, 10]]
+
+    imp = impute.SimpleImputer()
+    imp.fit(x)
+
+    print(imp.transform(x))
+
+    x2 = [[np.nan, np.nan],
+          [np.nan, np.nan]]
+
+    print(imp.transform(x2))
+
+    print(imp.statistics_)
+
 # add_dummy_feature()
 # binarizer()
 # label_binarizer()
 # label_encoder()
 # minmax_scale()
-standard_scale()
+# standard_scale()
+imputer()
