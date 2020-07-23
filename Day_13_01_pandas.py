@@ -23,6 +23,14 @@ print(s2[-2])
 
 # 문제
 # 슬라이싱을 사용해서 가운데 2개를 출력하세요 (2가지)
+print(s2[1:-1])
+print(s2['b':'c'])
+
+print(s2[1:-1].values)
+print(s2.values[1:-1])
+print('-' * 30)
+
+
 df = pd.DataFrame({
     'year': [2018, 2019, 2020, 2018, 2019, 2020],
     'city': ['ochang', 'ochang', 'ochang', 'sejong', 'sejong', 'sejong'],
