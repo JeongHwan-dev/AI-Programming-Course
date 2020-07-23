@@ -172,7 +172,15 @@ g = np.zeros([5, 5], dtype=np.int32)
 # g[[0, 1, 2], [0, 1, 2]] = 1
 g[range(5), range(5)] = 1
 print(g)
+print('-' * 30)
 
+t = np.int32([1, 5, 2, 7, 4])
+bools = [True, False, False, True, False]
 
+print(t[bools])
+
+for i in range(len(t)):
+    if bools[i]:
+        print(t[i])
 
 
