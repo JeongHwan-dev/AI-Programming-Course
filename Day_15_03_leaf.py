@@ -41,5 +41,3 @@ y_hats = clf.predict(x_test)
 equals = (y_hats == y_test)
 print('acc :', np.mean(equals))
 print(y_hats[:5])
-
-
