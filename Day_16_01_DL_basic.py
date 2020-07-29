@@ -55,9 +55,28 @@ def show_gradient():
         w -= 0.1 * g
         print(i, w)
 
+    # 문제
+    # x가 5와 7인 경우에 대해 예측하세요.
+    print('5: ', w * 5)
+    print('7: ', w * 7)
+
+
+# 문제
+# w가 1이 되는 코드로 수정하세요.
+def show_gradient2():
+    x = [1, 2, 3]
+    y = [1, 2, 3]
+
+    w = 1
+    for i in range(100):
+        g = gradient_descent(x, y, w)
+        w -= 0.1 * g
+        print(i, w)
+
 
 # show_cost()
 show_gradient()
+# show_gradient2()
 
 
 # 미분 : 기울기, 순간 변화량, x가 y에 영향을 주는 정도.
