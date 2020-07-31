@@ -11,11 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6df2893e-b9b0-4d8d-9e85-e097992d3ee7" name="Default Changelist" comment="Practice">
-      <change afterPath="$PROJECT_DIR$/Day_17_01_LinearRegression.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Day_18_01_MultipleRegression.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/cars.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,7 +198,42 @@
       <option name="project" value="LOCAL" />
       <updated>1596011275639</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Practice">
+      <created>1596091471860</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1596091471860</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Practice">
+      <created>1596091497151</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1596091497151</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Practice">
+      <created>1596091556478</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1596091556478</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Practice">
+      <created>1596091598548</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1596091598548</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Practice">
+      <created>1596091739919</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1596091739919</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,11 +282,11 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1459" y="164" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1595854290093" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596011300836">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596091764052">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1368" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1595857876705" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1596011300836" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1596091764052" />
     <state x="1052" y="100" width="776" height="840" key="dock-window-1" timestamp="1596022383409">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
