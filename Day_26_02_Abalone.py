@@ -1,41 +1,37 @@
-# Day_25_03_CarEvaluation.py
+# Day_26_02_Abalone.py
 import numpy as np
 from sklearn import model_selection, preprocessing
 import tensorflow as tf
 import pandas as pd
 
+np.set_printoptions(linewidth=1000)
 
 # 문제 1
-# car.data 파일을 읽어서
-# x_train, x_test, y_train, y_test 데이터를 반환하는 함수를 만드세요
+# 싱글 모델을 사용해서 정확도를 예측하세요 (앙상블 금지)
+# get_data 함수를 만들어서 사용합니다
 
 # 문제 2
-# 높은 정확도를 갖는 모델을 만드세요
+# 클래스의 갯수를 3개로 축약하세요 (0~9, 10~19, 20~29)
 
 
 def get_data():
-    names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'classes']
-    car = pd.read_csv('data/car.data', header=None, names=names)
-    car.info()
+    names = ['Sex', 'Length', 'Diameter', 'Height', 'Whole', 'Shucked', 'Viscera', 'Shell', 'Rings']
+    abalone = pd.read_csv('data/abalone.data', header=None, names=names)
+    print(abalone)
 
     enc = preprocessing.LabelEncoder()
-    # for col in car.columns:
-    #     car[col] = enc.fit_transform(car[col])
+    gender = enc.fit_transform(abalone.Sex)
+    y = abalone.Rings.values // 10
 
-    buying   = enc.fit_transform(car.buying)
-    maint    = enc.fit_transform(car.maint)
-    doors    = enc.fit_transform(car.doors)
-    persons  = enc.fit_transform(car.persons)
-    lug_boot = enc.fit_transform(car.lug_boot)
-    safety   = enc.fit_transform(car.safety)
-    classes  = enc.fit_transform(car.classes)
+    print(np.unique(y))
+    print(np.unique(enc.fit_transform(y)))
+    # y = enc.fit_transform(y)
+    # exit(-1)
 
-    x = [buying, maint, doors, persons, lug_boot, safety]
-    x = np.transpose(x)
+    abalone.drop(['Sex', 'Rings'], axis=1, inplace=True)
+    x = np.hstack([gender.reshape(-1, 1), abalone.values])      # (4177, 8) (4177,)
 
-    y = classes
-    print(x.shape, y.shape)     # (1728, 6) (1728,)
-    print(y[:10])
+    print(x.shape, y.shape)
 
     return model_selection.train_test_split(x, y, train_size=0.7)
 
@@ -48,9 +44,9 @@ def show_accuracy_sparse(preds, labels):
     print('acc :', np.mean(equals))
 
 
-def model_car_evaluation_sparse(x_train, x_test, y_train, y_test):
+def model_abalone_sparse(x_train, x_test, y_train, y_test):
     n_features = x_train.shape[1]
-    n_classes = np.max(y_train) + 1     # 4
+    n_classes = np.max(y_train) + 1     # 30
     w = tf.Variable(tf.random_uniform([n_features, n_classes]))
     b = tf.Variable(tf.random_uniform([n_classes]))
 
@@ -69,7 +65,7 @@ def model_car_evaluation_sparse(x_train, x_test, y_train, y_test):
     sess = tf.Session()
     sess.run(tf.global_variables_initializer())
 
-    for i in range(100):
+    for i in range(1000):
         sess.run(train, {ph_x: x_train})
         # print(i, sess.run(loss, {ph_x: x_train}))
 
@@ -81,12 +77,33 @@ def model_car_evaluation_sparse(x_train, x_test, y_train, y_test):
 
 
 x_train, x_test, y_train, y_test = get_data()
+# model_abalone_sparse(x_train, x_test, y_train, y_test)
 
-results = np.zeros([519, 4])
+results = np.zeros([len(x_test), np.max(y_train) + 1])
+preds_arg_list = []
 for i in range(7):
-    preds = model_car_evaluation_sparse(x_train, x_test, y_train, y_test)
+    preds = model_abalone_sparse(x_train, x_test, y_train, y_test)
     results += preds
     # print(preds.shape)
 
+    preds_arg_list.append(np.argmax(preds, axis=1))
+
 print('-' * 30)
 show_accuracy_sparse(results, y_test)
+print()
+
+for preds_arg in preds_arg_list:
+    print(preds_arg[:30])
+
+print('-' * 50)
+print(y_test[:30])
+
+
+
+
+
+
+
+
+
+
