@@ -4,6 +4,7 @@ from sklearn import model_selection, preprocessing
 import tensorflow as tf
 import pandas as pd
 
+np.set_printoptions(linewidth=1000)
 
 def get_data_dense(file_path):
     names = ['age', 'workclass', 'fnlwgt', 'education', 'education_num', 'marital',
@@ -135,7 +136,7 @@ def show_difference():
     train = pd.read_csv('data/adult.data', header=None, names=names)
     test = pd.read_csv('data/adult.test', header=None, names=names)
 
-    train.info()
+    # train.info()
 
     # 107 vs. 106
     # LabelBinerizer.fit_transform 함수에서 만들어낸 원핫 벡터의 갯수가 다르기 때문.
@@ -144,6 +145,88 @@ def show_difference():
 
     # 1. 문제를 읽으킬 수 있는 가능성이 있는 컬럼 조사 (object)
     # 2. 각 컬럼에 들어있는 유니크한 데이터 비교 (train/test)
+
+    # print(train.workclass.unique())
+    # print(test.workclass.unique())
+
+    # print(sorted(train.workclass.unique()))
+    # print(sorted(test.workclass.unique()))
+
+    for col in names:
+        # print(train[col].dtype)
+
+        if train[col].dtype == np.object:
+            # if len(train[col].unique()) == len(test[col].unique()):
+            #     continue
+            #
+            # print(col)
+            # print(sorted(train[col].unique()))
+            # print(sorted(test[col].unique()))
+            #
+            # print(len(train[col].unique()))
+            # print(len(test[col].unique()))
+
+            # 집합 : 합집합, 여집합, 차집합
+            s1 = set(train[col])
+            s2 = set(test[col])
+
+            if not (s1 - s2):
+                continue
+
+            # print(s1)
+            # print(s2)
+            print(s1 - s2)      # 차집합
+            # print(s2 - s1)    # 동작 안함
+            # print()
+
+    print('-' * 30)
+
+    enc = preprocessing.LabelBinarizer()
+    enc.fit(test.native_country)
+
+    native_country = enc.transform(test.native_country)
+    print(native_country.shape)
+
+    print(enc.classes_)
+
+    countries = list(enc.classes_) + [' Holand-Netherlands']
+    countries = sorted(countries)
+
+    enc.classes_ = np.array(countries)
+
+    # 에러
+    # enc.classes_.append(' Holand-Netherlands')
+
+    native_country = enc.transform(test.native_country)
+    print(native_country.shape)
+
+
+def find_missing_values():
+    names = ['age', 'workclass', 'fnlwgt', 'education', 'education_num', 'marital',
+             'occupation', 'relationship', 'race', 'sex', 'capital_gain', 'capital_loss',
+             'hours_per_week', 'native_country', 'income']
+    # train = pd.read_csv('data/adult.data', header=None, names=names, delimiter=', ')
+    train = pd.read_csv('data/adult.data', header=None, names=names)
+    # train.info()
+
+    bools = (train.workclass == ' ?')
+    # bools = (train.workclass.values == '?')
+    print(bools)
+    print(bools.sum())
+    print(np.sum(bools))
+    print('-' * 30)
+
+    # filtered = train[bools]
+    filtered = train[train.workclass != ' ?']
+    print(filtered)
+    print('-' * 30)
+
+    # 문제
+    # 결측치가 포함된 컬럼을 찾아보세요
+    for col in train.columns:
+        if train[col].dtype == np.object:
+            na_sum = np.sum(train[col] == ' ?')
+            print('{:15} : {}'.format(col, na_sum))
 
 
 # 에러나는 코드. 수정하지 않았음.
@@ -155,4 +238,5 @@ def show_difference():
 #
 # model_adult(x_train, x_test, y_train, y_test)
 
-show_difference()
+# show_difference()
+find_missing_values()

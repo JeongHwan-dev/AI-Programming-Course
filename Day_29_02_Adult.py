@@ -99,38 +99,43 @@ def show_accuracy(preds, labels):
 
 
 def model_adult(x_train, x_test, y_train, y_test):
-    w1 = tf.get_variable('w1', shape=[x_train.shape[1], 41],
+    w1 = tf.get_variable('w1', shape=[x_train.shape[1], 64],
                          initializer=tf.glorot_uniform_initializer)
-    b1 = tf.Variable(tf.zeros([41]))
+    b1 = tf.Variable(tf.zeros([64]))
 
-    w2 = tf.get_variable('w2', shape=[41, 31],
+    w2 = tf.get_variable('w2', shape=[64, 64],
                          initializer=tf.glorot_uniform_initializer)
-    b2 = tf.Variable(tf.zeros([31]))
+    b2 = tf.Variable(tf.zeros([64]))
 
-    w3 = tf.get_variable('w3', shape=[31, 21],
+    w3 = tf.get_variable('w3', shape=[64, 32],
                          initializer=tf.glorot_uniform_initializer)
-    b3 = tf.Variable(tf.zeros([21]))
+    b3 = tf.Variable(tf.zeros([32]))
 
-    w4 = tf.get_variable('w4', shape=[21, 11],
+    w4 = tf.get_variable('w4', shape=[32, 16],
                          initializer=tf.glorot_uniform_initializer)
-    b4 = tf.Variable(tf.zeros([11]))
+    b4 = tf.Variable(tf.zeros([16]))
 
-    w5 = tf.get_variable('w5', shape=[11, 1],
+    w5 = tf.get_variable('w5', shape=[16, 1],
                          initializer=tf.glorot_uniform_initializer)
     b5 = tf.Variable(tf.zeros([1]))
 
     ph_x = tf.placeholder(tf.float32)
     ph_y = tf.placeholder(tf.float32)
+    ph_d = tf.placeholder(tf.float32)       # drop-out
 
     z1 = tf.matmul(ph_x, w1) + b1
     r1 = tf.nn.relu(z1)
-    z2 = tf.matmul(r1, w2) + b2
+    d1 = tf.nn.dropout(r1, keep_prob=ph_d)
+    z2 = tf.matmul(d1, w2) + b2
     r2 = tf.nn.relu(z2)
-    z3 = tf.matmul(r2, w3) + b3
+    d2 = tf.nn.dropout(r2, keep_prob=ph_d)
+    z3 = tf.matmul(d2, w3) + b3
     r3 = tf.nn.relu(z3)
-    z4 = tf.matmul(r3, w4) + b4
+    d3 = tf.nn.dropout(r3, keep_prob=ph_d)
+    z4 = tf.matmul(d3, w4) + b4
     r4 = tf.nn.relu(z4)
-    z5 = tf.matmul(r4, w5) + b5
+    d4 = tf.nn.dropout(r4, keep_prob=ph_d)
+    z5 = tf.matmul(d4, w5) + b5
     hx = tf.sigmoid(z5)
 
     loss_i = tf.nn.sigmoid_cross_entropy_with_logits(labels=ph_y, logits=z5)
@@ -142,7 +147,7 @@ def model_adult(x_train, x_test, y_train, y_test):
     sess = tf.Session()
     sess.run(tf.global_variables_initializer())
 
-    epochs = 30
+    epochs = 100
     batch_size = 32
     n_iteration = len(x_train) // batch_size
 
@@ -161,12 +166,12 @@ def model_adult(x_train, x_test, y_train, y_test):
             xx = x_train[part]
             yy = y_train[part]
 
-            sess.run(train, {ph_x: xx, ph_y: yy})
-            c += sess.run(loss, {ph_x: xx, ph_y: yy})
+            sess.run(train, {ph_x: xx, ph_y: yy, ph_d: 0.7})
+            c += sess.run(loss, {ph_x: xx, ph_y: yy, ph_d: 0.7})
 
         # print(i, c / n_iteration)
 
-        preds = sess.run(hx, {ph_x: x_test})
+        preds = sess.run(hx, {ph_x: x_test, ph_d: 1.0})
         avg = show_accuracy(preds, y_test)
 
         print('{:3} : {:7.5f}  {:7.5f}'.format(i, c / n_iteration, avg))
@@ -175,7 +180,7 @@ def model_adult(x_train, x_test, y_train, y_test):
 
 
 # x_train, x_test, y_train, y_test = get_data_sparse('data/adult.data')  # (22792, 14) (9769, 14) (22792, 1) (9769, 1)
-x_train, x_test, y_train, y_test = get_data_dense('data/adult.data')   #
+x_train, x_test, y_train, y_test = get_data_dense('data/adult.data')   # (22792, 107) (9769, 107) (22792, 1) (9769, 1)
 
 print(x_train.shape, x_test.shape)
 print(y_train.shape, y_test.shape)
