@@ -66,5 +66,5 @@
 
 ## 8. 교육 포스터
 
-![포스터](/Images/AI-programming-course-poster.PNG)
+![포스터](/Images/AI-programming-course-poster.jpg)
 
